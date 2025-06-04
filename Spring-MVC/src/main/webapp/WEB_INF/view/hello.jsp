@@ -16,7 +16,7 @@
         </head>
 
         <body>
-            hello test jsp
+            Sửa lại email git
             <h1>
                 ${Trungtrinh}
             </h1>
