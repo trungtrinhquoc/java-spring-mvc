@@ -1,8 +1,19 @@
 package Personal_PRJ.Spring_MVC.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+// Để có table trong database
+@Entity
 public class User {
 
+    @Id
+    //Giúp tự động tăng ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String email;
     private String password;
     private String fullName;
