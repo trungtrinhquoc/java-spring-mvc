@@ -1,12 +1,20 @@
 package Personal_PRJ.Spring_MVC.domain;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 // Để có table trong database
 @Entity
+//Đặt tên cho table 
+@Table(name = "users")
 public class User {
 
     @Id
@@ -19,14 +27,26 @@ public class User {
     private String fullName;
     private String address;
     private String phone;
+    private String avatar;
 
-    public User(int id, String email, String password, String fullName, String phone, String address) {
+    //roleId
+    //User many => to one => role
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
+    //orderId
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
+
+    public User(int id, String email, String password, String fullName, String phone, String address, String avatar) {
         this.address = address;
         this.email = email;
         this.fullName = fullName;
         this.id = id;
         this.password = password;
         this.phone = phone;
+        this.avatar = avatar;
     }
 
     public User() {
@@ -81,18 +101,18 @@ public class User {
         this.phone = phone;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("User{");
-        sb.append("id=").append(id);
-        sb.append(", email=").append(email);
-        sb.append(", password=").append(password);
-        sb.append(", fullName=").append(fullName);
-        sb.append(", address=").append(address);
-        sb.append(", phone=").append(phone);
-        sb.append('}');
-        return sb.toString();
+        return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName
+                + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + "]";
     }
 
 }
