@@ -115,4 +115,12 @@ public class User {
                 + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + "]";
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
 }

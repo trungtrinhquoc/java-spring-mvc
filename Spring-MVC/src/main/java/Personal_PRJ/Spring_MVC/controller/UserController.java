@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import Personal_PRJ.Spring_MVC.domain.User;
 import Personal_PRJ.Spring_MVC.repository.UserRepository;
+import Personal_PRJ.Spring_MVC.service.UploadService;
 import Personal_PRJ.Spring_MVC.service.UserService;
 
 @Controller
@@ -20,10 +22,12 @@ public class UserController {
 
     private UserService userService;
     private UserRepository userRepository;
+    private UploadService uploadService;
 
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService, UserRepository userRepository, UploadService uploadService) {
         this.userService = userService;
         this.userRepository = userRepository;
+        this.uploadService = uploadService;
     }
 
     @RequestMapping("/")
@@ -54,15 +58,14 @@ public class UserController {
     }
 
     @RequestMapping("/admin/user/viewUser/{id}")
-    public String viewUser(@PathVariable("id")Integer id, Model model){
+    public String viewUser(@PathVariable("id") Integer id, Model model) {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
         return "admin/user/viewUser";
     }
 
-
     @RequestMapping("/admin/user/delete/{id}")
-    public String deleteUser(@PathVariable("id")Integer id, Model model){
+    public String deleteUser(@PathVariable("id") Integer id, Model model) {
         userService.deleteUser(id);
         // List<User> users = this.userService.getAllUser();
         // model.addAttribute("user1", users);
@@ -71,7 +74,7 @@ public class UserController {
     }
 
     @GetMapping("/admin/user/edit/{id}")
-    public String showEditForm(@PathVariable("id") Integer id, Model model){
+    public String showEditForm(@PathVariable("id") Integer id, Model model) {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
         return "/admin/user/editUser";
@@ -79,17 +82,14 @@ public class UserController {
 
     @PostMapping("/admin/user/edit")
     public String updateUser(@ModelAttribute("user") User user) {
-    userService.handleSaveUser(user); // cập nhật lại user
-    return "redirect:/admin/user/viewUser/" + user.getId();
-    } 
-    
-    @RequestMapping(value = "/admin/user/create1", method = RequestMethod.POST)
-    public String createUserPage(Model model, @ModelAttribute("newUser") User trungtrinh) {
-        System.out.println("run here" + trungtrinh);
-        userService.handleSaveUser(trungtrinh);
-        return "redirect:/admin/user";
+        userService.handleSaveUser(user); // cập nhật lại user
+        return "redirect:/admin/user/viewUser/" + user.getId();
     }
 
-
-
+    @PostMapping("/admin/user/create1")
+    public String createUser(@ModelAttribute("newUser") User user,
+            @RequestParam("avatarFile") MultipartFile file) {
+        this.uploadService.handleSaveUpLoadFile(file, "avatar");
+        return "redirect:/admin/user";
+    }
 }

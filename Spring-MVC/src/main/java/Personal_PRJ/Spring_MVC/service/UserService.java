@@ -32,14 +32,14 @@ public class UserService {
         return this.userRepository.save(user);
     }
 
-    public User getUserById(int id){
+    public User getUserById(int id) {
         //Vì dùng JPA nên phải xử lí ngoại lệ
         return userRepository.findById(id).orElse(null);
     }
 
-    public void deleteUser(int id){
-        if(userRepository.existsById(id)){
+    public void deleteUser(int id) {
+        if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
         }
     }
-}   
+}
