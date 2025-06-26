@@ -135,8 +135,8 @@
                                                         <form:select path="role.name" class="form-select"
                                                             id="roleSelect">
                                                             <form:option value="" label="-- Select Role --" />
-                                                            <form:option value="1" label="Admin" />
-                                                            <form:option value="2" label="User" />
+                                                            <form:option value="ADMIN" />
+                                                            <form:option value="USER" />
                                                         </form:select>
                                                     </div>
 

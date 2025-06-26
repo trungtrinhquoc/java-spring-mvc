@@ -113,6 +113,11 @@
                                                     <div class="detail-value">${user.phone}</div>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
+                                                    <div class="detail-label">Role</div>
+                                                    <div class="detail-value">${user.role.name}</div>
+                                                </div>
+
+                                                <div class="col-md-6 mb-3">
                                                     <div class="detail-label">Actions</div>
                                                     <div class="btn-group btn-group-sm" role="group">
                                                         <a href="/admin/user/edit/${user.id}"

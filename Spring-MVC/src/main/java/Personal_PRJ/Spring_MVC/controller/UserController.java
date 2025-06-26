@@ -2,6 +2,7 @@ package Personal_PRJ.Spring_MVC.controller;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +24,13 @@ public class UserController {
     private UserService userService;
     private UserRepository userRepository;
     private UploadService uploadService;
+    private PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService, UserRepository userRepository, UploadService uploadService) {
+    public UserController(UserService userService, UserRepository userRepository, UploadService uploadService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.uploadService = uploadService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @RequestMapping("/")
@@ -87,9 +90,14 @@ public class UserController {
     }
 
     @PostMapping("/admin/user/create1")
-    public String createUser(@ModelAttribute("newUser") User user,
+    public String createUser(Model model, @ModelAttribute("newUser") User user,
             @RequestParam("avatarFile") MultipartFile file) {
-        this.uploadService.handleSaveUpLoadFile(file, "avatar");
+        String avatar = this.uploadService.handleSaveUpLoadFile(file, "avatar");
+        String hashPassword = this.passwordEncoder.encode(user.getPassword());
+        user.setAvatar(avatar);
+        user.setPassword(hashPassword);
+        user.setRole(this.userService.getRoleByName(user.getRole().getName()));
+        this.userService.handleSaveUser(user);
         return "redirect:/admin/user";
     }
 }
