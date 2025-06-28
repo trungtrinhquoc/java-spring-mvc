@@ -96,9 +96,10 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 10%">ID</th>
-                                                <th style="width: 30%">Full Name</th>
-                                                <th style="width: 30%">Email</th>
-                                                <th style="width: 30%">Action</th>
+                                                <th style="width: 20%">Full Name</th>
+                                                <th style="width: 35%">Email</th>
+                                                <th style="width: 20%">Role</th>
+                                                <th style="width: 150%">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -107,6 +108,7 @@
                                                     <td>${loop.index + 1}</td>
                                                     <td>${u.fullName}</td>
                                                     <td>${u.email}</td>
+                                                    <td>${u.role.name}</td>
                                                     <td>
                                                         <div class="btn-group btn-group-sm" role="group">
                                                             <a href="/admin/user/viewUser/${u.id}"
